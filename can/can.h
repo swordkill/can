@@ -29,16 +29,10 @@
 #include <assert.h>
 #include <iso646.h>
 
-#define eq ==
-#define le <=
-#define ge >=
-#define lt <
-#define gt >
-
 #if not defined(__GNUC__)                                                       \
     or  defined(__clang__)                                                      \
-    or  __GNUC__ lt 4                                                           \
-    or (__GNUC__ eq 4 and __GNUC_MINOR__ lt 9)
+    or  __GNUC__ <  4                                                           \
+    or (__GNUC__ == 4 and __GNUC_MINOR__ < 9)
 #   include <can requires gnu c dialect, gcc compiler 4.9 or above>
 #endif
 
@@ -50,6 +44,15 @@
 
 #define auto                                                                    \
     __auto_type
+
+#define pointer(something)                                                      \
+    typeof(typeof(something)*)
+
+#define coalescing(pointer)                                                     \
+    not (pointer) ? 0
+
+#define function(signature, body)                                               \
+    ({typeof(signature) _ body _;})
 
 #define array_last(array)                                                       \
     (array_size(array) - 1)
@@ -63,15 +66,6 @@
         );                                                                      \
     (sizeof(array) / sizeof(array[0]));                                         \
     })
-
-#define pointer(something)                                                      \
-    typeof(typeof(something)*)
-
-#define coalescing(pointer)                                                     \
-    not (pointer) ? 0
-
-#define function(signature, body)                                               \
-    ({typeof(signature) _ body _;})
 
 #define assertion(condition, message)                                           \
     ({                                                                          \

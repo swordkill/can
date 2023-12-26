@@ -52,7 +52,7 @@
     size_t  max           = array_size(*names);                                 \
     size_t  i             = 0;                                                  \
                                                                                 \
-    while ((entry = directory_read(handle)) and i lt max)                       \
+    while ((entry = directory_read(handle)) and i < max)                        \
         {                                                                       \
         (*names)[i] = strdup(entry->d_name);                                    \
         i ++;                                                                   \
