@@ -68,24 +68,6 @@ void (link_set_backward)(source, destination)
         (source->backward = destination);
     }
 
-optimized
-void (link_set_forward_of_backward)(source, destination)
-    pointer(link) source;
-    pointer(link) destination;
-    {
-    coalescing(source):coalescing(source->backward):
-        (source->backward->forward = destination);
-    }
-
-optimized
-void (link_set_backward_of_forward)(source, destination)
-    pointer(link) source;
-    pointer(link) destination;
-    {
-    coalescing(source):coalescing(source->forward):
-        (source->forward->backward = destination);
-    }
-
 #define link_forward(source)                                                    \
     (link_forward((pointer(link)) source))
 
@@ -97,11 +79,5 @@ void (link_set_backward_of_forward)(source, destination)
 
 #define link_set_backward(source, destination)                                  \
     (link_set_backward((pointer(link)) source, (pointer(link)) destination))
-
-#define link_set_forward_of_backward(source, destination)                       \
-    (link_set_forward_of_backward((pointer(link)) source, (pointer(link)) destination))
-
-#define link_set_backward_of_forward(source, destination)                       \
-    (link_set_backward_of_forward((pointer(link)) source, (pointer(link)) destination))
 
 #endif

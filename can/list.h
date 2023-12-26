@@ -107,11 +107,11 @@
         auto novel = memory_new(*head->iterator);                               \
         if (head->length)                                                       \
                 {                                                               \
-                link_set_backward           (novel, link_backward(head));       \
-                link_set_forward_of_backward(head , novel              );       \
+                link_set_backward(              novel, link_backward(head));    \
+                link_set_forward (link_backward(head), novel              );    \
                 }                                                               \
-        else    link_set_forward            (head , novel              );       \
-                link_set_backward           (head , novel              );       \
+        else    link_set_forward (head , novel);                                \
+                link_set_backward(head , novel);                                \
         return  (head->length ++, novel);                                       \
         });                                                                     \
                                                                                 \
@@ -122,11 +122,11 @@
         auto novel = memory_new(*head->iterator);                               \
         if (head->length)                                                       \
                 {                                                               \
-                link_set_forward            (novel, link_forward(head));        \
-                link_set_backward_of_forward(head , novel             );        \
+                link_set_forward (             novel, link_forward(head));      \
+                link_set_backward(link_forward(head), novel             );      \
                 }                                                               \
-        else    link_set_backward           (head , novel             );        \
-                link_set_forward            (head , novel             );        \
+        else    link_set_backward(head , novel);                                \
+                link_set_forward (head , novel);                                \
         return  (head->length ++, novel);                                       \
         });                                                                     \
                                                                                 \
@@ -138,11 +138,11 @@
         if (i)                                                                  \
             {                                                                   \
             if (link_backward(i))                                               \
-                    link_set_forward_of_backward(i   , link_forward (i));       \
-            else    link_set_forward            (head, link_forward (i));       \
+                    link_set_forward(link_backward(i), link_forward (i));       \
+            else    link_set_forward(            head, link_forward (i));       \
             if (link_forward (i))                                               \
-                    link_set_backward_of_forward(i   , link_backward(i));       \
-            else    link_set_backward           (head, link_backward(i));       \
+                    link_set_backward(link_forward(i), link_backward(i));       \
+            else    link_set_backward(           head, link_backward(i));       \
             if (link_backward(i))                                               \
                     head->iterator = (pointer(node)) link_backward(i);          \
             else    head->iterator = (pointer(node)) link_forward (i);          \
@@ -165,7 +165,8 @@
 #define list_forward( list) (list->forward (list))
 #define list_backward(list) (list->backward(list))
 
-#define scoped_list auto scoped(list_free)
+#define scoped_list                                                             \
+    auto scoped(list_free)
 
 optimized
 void (list_free)(reference)

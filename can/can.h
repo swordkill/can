@@ -51,9 +51,6 @@
 #define auto                                                                    \
     __auto_type
 
-#define array(something, size)                                                  \
-    typeof(typeof(something)[size])
-
 #define array_last(array)                                                       \
     (array_size(array) - 1)
 
